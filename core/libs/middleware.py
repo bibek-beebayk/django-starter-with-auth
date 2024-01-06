@@ -17,20 +17,17 @@ class APILogMiddleware:
         user = str(getattr(request, 'user', ''))
         method = str(getattr(request, 'method', '')).upper()
         status_code = str(getattr(response, 'status_code', ''))
-        request_path = str(getattr(request, 'path', ''))
-        now = datetime.strftime(datetime.now(), "%Y-%m-%d %HH:%MM:%SS")
-        # request_data = str(getattr(request, 'data', 'aefasdf'))
-        # import ipdb; ipdb.set_trace()
-        # request_data = request.body or None
-        logger.info({
-                        # "message": "*****SLOW RESPONSE****",
-                        "timestamp": now,
-                        "path": request_path,
-                        "response_time": str(response_ms) + " ms",
-                        "method": method,
-                        "user": user,
-                        "status_code": status_code,
-                        "response_data": response_data
-                        # "request_data": request_data
-                        })
+        token = str(getattr(request, "Authorization", ""))
+
+        logger.info("*"*80)
+        logger.info(datetime.strftime(datetime.now(), "%Y-%m-%d  %H:%M:%S"))
+        logger.info(f"Request Path: {request.path}")
+        logger.info(f"Request Method: {method}")
+        logger.info(f"Response Time: {str(response_ms)} ms")
+        logger.info(f"User: {user}")
+        logger.info(f"Status Code: {status_code}")
+        logger.info(f"Token: {token}")
+        logger.info(f"Response Data: {response_data}")
+        logger.info("*"*80)
+
         return response
