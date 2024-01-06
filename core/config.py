@@ -1,0 +1,1 @@
+OTP_VALID_DURATION = 1*60*60 # 1 hour in seconds

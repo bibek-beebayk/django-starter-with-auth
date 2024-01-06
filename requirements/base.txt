@@ -1,0 +1,10 @@
+Django
+psycopg2-binary
+django-extensions
+djangorestframework
+djangorestframework-simplejwt
+django-versatileimagefield
+django-storages
+django-filter
+django-jazzmin
+django-ckeditor
