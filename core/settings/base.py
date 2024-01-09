@@ -58,18 +58,18 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "core.wsgi.application"
 
-
+from . import site_settings
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql_psycopg2",
-        "NAME": "dbname",
-        "USER": "postgres",
-        "PASSWORD": "",
-        "HOST": "",
-        "PORT": "",
+        "NAME": site_settings.DATABASE_NAME,
+        "USER": site_settings.DATABASE_USER,
+        "PASSWORD": site_settings.DATABASE_PASSWORD,
+        "HOST": site_settings.DATABASE_HOST,
+        "PORT": site_settings.DATABASE_PORT,
     }
 }
 
@@ -142,10 +142,19 @@ REST_FRAMEWORK = {
 }
 
 SIMPLEJWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=60),
-    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
+    "ACCESS_TOKEN_LIFETIME": site_settings.JWT_ACCESS_TOKEN_LIFETIME,
+    "REFRESH_TOKEN_LIFETIME": site_settings.JWT_REFRESH_TOKEN_LIFETIME,
 }
 
 VERSATILEIMAGEFIELD_SETTINGS = {
     "create_images_on_demand": False,
 }
+
+
+# SMTP email configuration
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = site_settings.EMAIL_HOST
+EMAIL_PORT = site_settings.EMAIL_PORT
+EMAIL_HOST_USER = site_settings.EMAIL_HOST_USER
+EMAIL_HOST_PASSWORD = site_settings.EMAIL_HOST_PASSWORD
+EMAIL_USE_TLS = True

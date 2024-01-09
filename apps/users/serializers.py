@@ -38,7 +38,6 @@ class UserCreateSerializer(serializers.ModelSerializer):
         google_token = request.data.get("google_token", None)
         user = self.Meta.model(**validated_data)
         user.set_password(password)
-        user.user_type = "Reader"
         if google_token:
             dp_url = request.data.get("dp_url")
             basename = urlparse(dp_url).path.split("/")[-1]
@@ -64,13 +63,11 @@ class UserCreateSerializer(serializers.ModelSerializer):
             # "full_name",
             "password",
             "username",
-            "user_type",
             "profile_picture",
         ]
         extra_kwargs = {
             "password": {"write_only": True},
             # "username": {"read_only": True},
-            "user_type": {"read_only": True},
             "id": {"read_only": True},
             "profile_picture": {"read_only": True},
             # "dp_url": {"read_only": True}

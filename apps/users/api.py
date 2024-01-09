@@ -1,3 +1,4 @@
+from django.conf import settings
 from rest_framework import status
 from rest_framework.decorators import action
 from rest_framework.mixins import CreateModelMixin
@@ -9,9 +10,13 @@ from rest_framework_simplejwt.tokens import RefreshToken
 
 from adapters import Email
 from apps.users.models import OTP, User
-from apps.users.serializers import (UserCreateSerializer, UserListSerializer,
-                                    UserProfileSerializer, UserSerializer,
-                                    UserUpdateSerializer)
+from apps.users.serializers import (
+    UserCreateSerializer,
+    UserListSerializer,
+    UserProfileSerializer,
+    UserSerializer,
+    UserUpdateSerializer,
+)
 
 
 def get_tokens(user):
@@ -19,7 +24,7 @@ def get_tokens(user):
     return {"refresh": str(refresh), "access": str(refresh.access_token)}
 
 
-def get_response(self, user_res, tokens):
+def get_response(user_res, tokens):
     user_res["access"] = tokens["access"]
     user_res["refresh"] = tokens["refresh"]
     return user_res
@@ -58,7 +63,9 @@ class UserCreateViewSet(CreateModelMixin, GenericViewSet):
     def login(self, request):
         req_data = request.data
         try:
-            user = User.objects.get(username=req_data["username"])
+            user = User.objects.get(
+                **{settings.USERNAME_FIELD: req_data[settings.USERNAME_FIELD]}
+            )
         except User.DoesNotExist:
             return Response({"detail": "Incorrect username or password."})
         if not user.otp_verified:

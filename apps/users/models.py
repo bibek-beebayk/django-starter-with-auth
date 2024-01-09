@@ -37,6 +37,31 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_superuser = models.BooleanField(default=False)
     otp_verified = models.BooleanField(default=False)
 
+    address_country = models.CharField(max_length=255)
+    address_state = models.CharField(max_length=255, null=True, blank=True)
+    address_city = models.CharField(max_length=255)
+    address_street1 = models.CharField(max_length=255, null=True, blank=True)
+    address_street2 = models.CharField(max_length=255, null=True, blank=True)
+    bio = models.TextField(null=True, blank=True)
+    occupation = models.CharField(max_length=255)
+    date_of_birth = models.DateField(null=True)
+    gender = models.CharField(max_length=16, choices=GENDER_CHOICES)
+    full_name = models.CharField(max_length=255)
+    first_name = models.CharField(max_length=255, blank=True, null=True)
+    middle_name = models.CharField(max_length=255, null=True, blank=True)
+    last_name = models.CharField(max_length=255, blank=True, null=True)
+    phone_number = models.CharField(max_length=255, unique=True, null=True)
+    profile_picture = VersatileImageField(
+        upload_to="users/profile_pics/"
+    )
+
+    SIZES = {
+        "profile_picture": {
+            "small": "thumbnail__320x180",
+            "medium": "thumbnail__640x360",
+        }
+    }
+
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -84,36 +109,6 @@ class User(AbstractBaseUser, PermissionsMixin):
         if not self.username:
             self.username = self.generate_username()
         super().save(*args, **kwargs)
-
-
-class UserDetail(TimeStampModel):
-    user = models.OneToOneField(
-        User, on_delete=models.PROTECT, related_name="user_details"
-    )
-    address_country = models.CharField(max_length=255)
-    address_state = models.CharField(max_length=255, null=True, blank=True)
-    address_city = models.CharField(max_length=255)
-    address_street1 = models.CharField(max_length=255, null=True, blank=True)
-    address_street2 = models.CharField(max_length=255, null=True, blank=True)
-    bio = models.TextField(null=True, blank=True)
-    occupation = models.CharField(max_length=255)
-    date_of_birth = models.DateField(null=True)
-    gender = models.CharField(max_length=16, choices=GENDER_CHOICES)
-    full_name = models.CharField(max_length=255)
-    first_name = models.CharField(max_length=255, blank=True, null=True)
-    middle_name = models.CharField(max_length=255, null=True, blank=True)
-    last_name = models.CharField(max_length=255, blank=True, null=True)
-    phone_number = models.CharField(max_length=255, unique=True, null=True)
-    profile_picture = VersatileImageField(
-        upload_to="users/profile_pics/"
-    )
-
-    SIZES = {
-        "profile_picture": {
-            "small": "thumbnail__320x180",
-            "medium": "thumbnail__640x360",
-        }
-    }
 
 
 class OTP(TimeStampModel):
