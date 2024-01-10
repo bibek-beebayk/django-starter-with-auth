@@ -8,3 +8,4 @@ django-storages
 django-filter
 django-jazzmin
 django-ckeditor
+django-cors-headers
