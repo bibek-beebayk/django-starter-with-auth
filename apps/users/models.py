@@ -90,7 +90,10 @@ class User(AbstractBaseUser, PermissionsMixin):
     def generate_username(self):
         low = 1000
         high = 9999
-        first_name = self.full_name.split(" ")[0]
+        if self.full_name:
+            first_name = self.full_name.split(" ")[0]
+        elif self.email:
+            first_name = self.email.split("@")[0]
         cleaned_first_name = "".join(filter(str.isalnum, first_name))
         match = True
         count = 0

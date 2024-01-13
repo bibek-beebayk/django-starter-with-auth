@@ -21,3 +21,13 @@ EMAIL_USE_TLS = True
 # JWT token settings
 JWT_ACCESS_TOKEN_LIFETIME = timezone.timedelta(minutes=60)
 JWT_REFRESH_TOKEN_LIFETIME = timezone.timedelta(days=1)
+
+# Custom Response
+ALLOW_NULL_VALUES_IN_RESPONSE = True
+'''
+If false, the null values in response are replaced by some default value.
+IntegerField: 0
+FloatField: 0.0
+CharField: ""
+.... and so on.
+'''

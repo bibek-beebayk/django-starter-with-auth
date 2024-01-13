@@ -2,6 +2,7 @@ from rest_framework.serializers import ModelSerializer
 from rest_framework import fields
 from rest_framework.serializers import ListSerializer
 from rest_framework.relations import PrimaryKeyRelatedField
+from django.conf import settings
 
 
 class CustomModelSerializer(ModelSerializer):
@@ -9,8 +10,8 @@ class CustomModelSerializer(ModelSerializer):
         
         res = super().to_representation(instance)
 
-        # Uncomment the following line if you want the default response with null values
-        return res
+        if settings.ALLOW_NULL_VALUES_IN_RESPONSE:
+            return res
 
         # TODO: add more keys and values
         default_values = {

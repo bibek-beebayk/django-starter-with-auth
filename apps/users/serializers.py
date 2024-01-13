@@ -70,7 +70,7 @@ class UserCreateSerializer(CustomModelSerializer):
         ]
         extra_kwargs = {
             "password": {"write_only": True},
-            # "username": {"read_only": True},
+            "username": {"required": False, "allow_blank": True, "allow_null": True},
             "id": {"read_only": True},
             "profile_picture": {"read_only": True},
             # "dp_url": {"read_only": True}
