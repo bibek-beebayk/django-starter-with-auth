@@ -1,6 +1,7 @@
 import random
 from versatileimagefield.fields import VersatileImageField
 import uuid
+from django.conf import settings
 
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.db import models
@@ -127,7 +128,13 @@ class OTP(TimeStampModel):
 
     @classmethod
     def create(cls, user_id: int, type: str):
-        code = random.randint(1000, 9999)
+        otp_length = settings.OTP_LENGTH
+        start = int("1" + "0"*(otp_length-1))
+        end = int("9"*otp_length)
+        if settings.DEBUG:
+            code = int("1"*otp_length)
+        else:
+            code = random.randint(start, end)
         otp = cls.objects.create(otp=code, user_id=user_id, otp_type=type)
         return otp
 
