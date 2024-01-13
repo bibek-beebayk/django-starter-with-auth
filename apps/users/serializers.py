@@ -7,11 +7,12 @@ from django.conf import settings
 
 from adapters import Email
 from core.libs.images import ImageKeySerializer
+from core.libs.serializers import CustomModelSerializer
 
 from .models import OTP, User
 
 
-class UserCreateSerializer(serializers.ModelSerializer):
+class UserCreateSerializer(CustomModelSerializer):
     # access_token = serializers.SerializerMethodField()
     # google_token = serializers.CharField(
     #     max_length=255, allow_blank=True, allow_null=True, write_only=True
@@ -77,7 +78,7 @@ class UserCreateSerializer(serializers.ModelSerializer):
         }
 
 
-class UserUpdateSerializer(serializers.ModelSerializer):
+class UserUpdateSerializer(CustomModelSerializer):
     bio = serializers.CharField(max_length=4096)
     class Meta:
         model = User
@@ -90,19 +91,19 @@ class UserUpdateSerializer(serializers.ModelSerializer):
         return super().update(instance, validated_data)
 
 
-class UserSerializer(serializers.ModelSerializer):
+class UserSerializer(CustomModelSerializer):
     class Meta:
         model = User
         fields = "__all__"
 
 
-class UserListSerializer(serializers.ModelSerializer):
+class UserListSerializer(CustomModelSerializer):
     class Meta:
         model = User
         fields = ["id", "username"]
 
 
-class UserProfileSerializer(serializers.ModelSerializer):
+class UserProfileSerializer(CustomModelSerializer):
     profile_picture = ImageKeySerializer("small")
     bio = serializers.ReadOnlyField(source="user_details.bio")
     full_name = serializers.ReadOnlyField(source='user_details.full_name')
@@ -122,7 +123,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
         ]
 
 
-# class CategorySerializer(serializers.ModelSerializer):
+# class CategorySerializer(CustomModelSerializer):
 #     image = ImageKeySerializer("medium")
 #     class Meta:
 #         model = Category
