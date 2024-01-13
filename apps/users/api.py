@@ -67,12 +67,12 @@ class UserCreateViewSet(CreateModelMixin, GenericViewSet):
                 **{settings.USERNAME_FIELD: req_data[settings.USERNAME_FIELD]}
             )
         except User.DoesNotExist:
-            return Response({"detail": "Incorrect username or password."})
+            return Response({"detail": "Incorrect username or password."}, status=400)
         if not user.otp_verified:
             return Response({"detail": "User not verified."}, status=400)
         match = user.check_password(req_data["password"])
         if not match:
-            return Response({"detail": "Incorrect username or password"})
+            return Response({"detail": "Incorrect username or password"}, status=400)
         user.login_count += 1
         user.save()
         tokens = get_tokens(user)

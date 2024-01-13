@@ -1,6 +1,7 @@
 from django.utils import timezone
 
 USERNAME_FIELD = "email"
+USE_OTP_VALIDATION = True
 
 # Database settings
 DATABASE_NAME = "django_auth"

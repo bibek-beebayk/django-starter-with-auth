@@ -3,6 +3,7 @@ from rest_framework.exceptions import ValidationError
 from urllib.parse import urlparse
 from django.core.files.uploadedfile import SimpleUploadedFile
 import urllib.request
+from django.conf import settings
 
 from adapters import Email
 from core.libs.images import ImageKeySerializer
@@ -44,15 +45,16 @@ class UserCreateSerializer(serializers.ModelSerializer):
             tmpfile, _ = urllib.request.urlretrieve(dp_url)
             user.profile_picture = SimpleUploadedFile(basename, open(tmpfile, "rb").read())
         user.save()
-        # TODO: send otp via email/phone
-        otp = OTP.create(user.id, "Registration")
-        mail = Email()
-        mail_data = {
-            "subject": "Registration OTP",
-            "message": f"Your otp is {otp.otp}. Please use it to verify your registration.",
-            "to": [user.email],
-        }
-        mail.send(mail_data)
+        if settings.VALIDATE_OTP:
+            # TODO: send otp via email/phone
+            otp = OTP.create(user.id, "Registration")
+            mail = Email()
+            mail_data = {
+                "subject": "Registration OTP",
+                "message": f"Your otp is {otp.otp}. Please use it to verify your registration.",
+                "to": [user.email],
+            }
+            mail.send(mail_data)
         return user
 
     class Meta:
