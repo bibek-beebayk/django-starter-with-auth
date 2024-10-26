@@ -1,8 +1,9 @@
-from datetime import timedelta
 from pathlib import Path
-
+import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+from django.utils import timezone
+
 
 # Application definition
 
@@ -60,18 +61,18 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "core.wsgi.application"
 
-from . import site_settings
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql_psycopg2",
-        "NAME": site_settings.DATABASE_NAME,
-        "USER": site_settings.DATABASE_USER,
-        "PASSWORD": site_settings.DATABASE_PASSWORD,
-        "HOST": site_settings.DATABASE_HOST,
-        "PORT": site_settings.DATABASE_PORT,
+        "NAME": os.environ.get("PGDATABASE", "auth"),
+        "USER": os.environ.get("PGUSER", "postgres"),
+        "PASSWORD": os.environ.get("PGPASSWORD", "postgres"),
+        "HOST": os.environ.get("PGHOST", ""),
+        "PORT": os.environ.get("PGPORT", ""),
+        "ATOMIC_REQUESTS": True,
     }
 }
 
@@ -144,8 +145,8 @@ REST_FRAMEWORK = {
 }
 
 SIMPLEJWT = {
-    "ACCESS_TOKEN_LIFETIME": site_settings.JWT_ACCESS_TOKEN_LIFETIME,
-    "REFRESH_TOKEN_LIFETIME": site_settings.JWT_REFRESH_TOKEN_LIFETIME,
+    "ACCESS_TOKEN_LIFETIME": timezone.timedelta(minutes=60),
+    "REFRESH_TOKEN_LIFETIME": timezone.timedelta(days=1),
 }
 
 VERSATILEIMAGEFIELD_SETTINGS = {
@@ -153,12 +154,20 @@ VERSATILEIMAGEFIELD_SETTINGS = {
 }
 
 
-# SMTP email configuration
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = site_settings.EMAIL_HOST
-EMAIL_PORT = site_settings.EMAIL_PORT
-EMAIL_HOST_USER = site_settings.EMAIL_HOST_USER
-EMAIL_HOST_PASSWORD = site_settings.EMAIL_HOST_PASSWORD
-EMAIL_USE_TLS = True
+USERNAME_FIELD = "email"
+USE_OTP_VALIDATION = True
+OTP_LENGTH = 4
 
-VALIDATE_OTP = site_settings.USE_OTP_VALIDATION
+
+# Custom Response
+ALLOW_NULL_VALUES_IN_RESPONSE = True
+
+# # SMTP email configuration
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = site_settings.EMAIL_HOST
+# EMAIL_PORT = site_settings.EMAIL_PORT
+# EMAIL_HOST_USER = site_settings.EMAIL_HOST_USER
+# EMAIL_HOST_PASSWORD = site_settings.EMAIL_HOST_PASSWORD
+# EMAIL_USE_TLS = True
+
+# VALIDATE_OTP = site_settings.USE_OTP_VALIDATION
