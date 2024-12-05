@@ -10,6 +10,8 @@ ALLOWED_HOSTS = ["alnoor-be-production.up.railway.app"]
 
 CSRF_TRUSTED_ORIGINS = ["https://alnoor-be-production.up.railway.app"]
 
+CORS_ALLOWED_ORIGINS = ["https://alnoor-be-production.up.railway.app"]
+
 MIDDLEWARE += [
     "whitenoise.middleware.WhiteNoiseMiddleware",
 ]
