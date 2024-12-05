@@ -41,8 +41,9 @@ class SiteConfig(SingletonModel):
     emails =  ArrayField(models.EmailField(), blank=True, null=True, help_text="Enter emails separated by comma.")
     # addresses = models.ManyToManyField(Address, blank=True)
     address = models.CharField(max_length=255, blank=True, null=True)
-    website = models.URLField(max_length=255, blank=True, null=True)
+    website = models.URLField(max_length=1024, blank=True, null=True)
     social_links = models.ManyToManyField(Link, blank=True)
+    google_maps_link = models.URLField(max_length=1024, blank=True, null=True)
     
 
     SIZES = {
