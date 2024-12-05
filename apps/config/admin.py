@@ -5,13 +5,14 @@ from solo.admin import SingletonModelAdmin
 admin.site.site_header = "Al Noor Admin"
 admin.site.site_title = "Al Noor Admin Portal"
 
+
 @admin.register(SiteConfig)
 class SiteConfigAdmin(SingletonModelAdmin):
     fieldsets = [
         (
             "General",
             {
-                "fields": (
+                "fields": [
                     "site_title",
                     "logo",
                     "government_license_number",
@@ -19,21 +20,28 @@ class SiteConfigAdmin(SingletonModelAdmin):
                     "pan",
                     "paid_up_capital",
                     "working_countries",
-                    "mission",
-                    "vision",
-                )
+                ]
             },
         ),
         (
             "Contact Info",
             {
-                "fields": (
+                "fields": [
                     "address",
                     "phone_numbers",
                     "emails",
                     "website",
                     "social_links",
-                )
+                ]
+            },
+        ),
+        (
+            "Mission and Vision",
+            {
+                "fields": [
+                    "mission",
+                    "vision",
+                ]
             },
         ),
     ]
