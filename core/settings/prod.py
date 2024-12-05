@@ -10,6 +10,11 @@ ALLOWED_HOSTS = ["alnoor-be-production.up.railway.app"]
 
 CSRF_TRUSTED_ORIGINS = ["https://alnoor-be-production.up.railway.app"]
 
+MIDDLEWARE += [
+    "whitenoise.middleware.WhiteNoiseMiddleware",
+]
+STATICFILES_STORAGE = "whitenoise.storage.CompressedStaticFilesStorage"
+
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 CSRF_TRUSTED_ORIGINS = []
