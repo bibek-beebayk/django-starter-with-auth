@@ -30,6 +30,8 @@ class SiteConfig(SingletonModel):
     government_license_number = models.CharField(max_length=255, blank=True, null=True)
     company_registrar_number = models.CharField(max_length=255, blank=True, null=True)
     pan = models.CharField(max_length=255, blank=True, null=True, verbose_name="PAN Number")
+    paid_up_capital = models.PositiveBigIntegerField(blank=True, null=True, verbose_name="Paid Up Capital in Nepali Rupees")
+    working_countries = ArrayField(models.CharField(max_length=255), blank=True, null=True)
     logo = VersatileImageField(upload_to="images/logo/", blank=True, null=True, verbose_name="Company Logo")
 
     # Contact Info

@@ -15,6 +15,8 @@ class SiteConfigAdmin(SingletonModelAdmin):
                     "government_license_number",
                     "company_registrar_number",
                     "pan",
+                    "paid_up_capital",
+                    "working_countries",
                 )
             },
         ),
