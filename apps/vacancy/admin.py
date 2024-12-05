@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Job, Company
+from .models import Application, Job, Company
 
 
 @admin.register(Company)
@@ -28,3 +28,9 @@ class JobAdmin(admin.ModelAdmin):
         "job_type",
         "job_level",
     ]
+
+
+@admin.register(Application)
+class ApplicationAdmin(admin.ModelAdmin):
+    list_display = ("job", "cv")
+    search_fields = ("job",)

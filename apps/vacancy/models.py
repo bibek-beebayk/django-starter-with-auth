@@ -15,7 +15,7 @@ class Company(TimeStampModel):
 
     def __str__(self):
         return self.name
-    
+
     class Meta:
         verbose_name_plural = "Companies"
 
@@ -25,8 +25,12 @@ class Job(TimeStampModel):
     title = models.CharField(max_length=255)
     description = CKEditor5Field(config_name="extends")
     job_location = models.CharField(max_length=255)
-    min_salary = models.DecimalField("Minimum Salary USD", max_digits=10, decimal_places=2)
-    max_salary = models.DecimalField("Maximum Salary USD", max_digits=10, decimal_places=2)
+    min_salary = models.DecimalField(
+        "Minimum Annual Salary USD", max_digits=10, decimal_places=2
+    )
+    max_salary = models.DecimalField(
+        "Maximum Annual Salary USD", max_digits=10, decimal_places=2
+    )
     job_type = models.CharField(
         max_length=255,
         choices=[
@@ -37,15 +41,15 @@ class Job(TimeStampModel):
             ("Temporary", "Temporary"),
         ],
     )
-    salary_distribution_period = models.CharField(
-        max_length=255,
-        choices=[
-            ("Weekly", "Weekly"),
-            ("Monthly", "Monthly"),
-            ("Half Yearly", "Half Yearly"),
-            ("Yearly", "Yearly"),
-        ],
-    )
+    # salary_distribution_period = models.CharField(
+    #     max_length=255,
+    #     choices=[
+    #         ("Weekly", "Weekly"),
+    #         ("Monthly", "Monthly"),
+    #         ("Half Yearly", "Half Yearly"),
+    #         ("Yearly", "Yearly"),
+    #     ],
+    # )
     expiry_date = models.DateField()
     job_level = models.CharField(
         max_length=255,
@@ -82,3 +86,13 @@ class Job(TimeStampModel):
             ("PhD", "PhD"),
         ],
     )
+
+    def __str__(self):
+        return self.title
+
+class Application(TimeStampModel):
+    job = models.ForeignKey(Job, on_delete=models.CASCADE, related_name="applications")
+    cv = models.FileField(upload_to="files/applicants_cv/")
+
+    def __str__(self):
+        return f"{self.job.title}"

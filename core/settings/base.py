@@ -402,7 +402,7 @@ JAZZMIN_SETTINGS = {
     "show_sidebar": True,
 
     # Whether to aut expand the menu
-    "navigation_expanded": False,
+    "navigation_expanded": True,
 
     # Hide these apps when generating side menu e.g (auth)
     "hide_apps": [],
