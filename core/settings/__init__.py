@@ -1,2 +1,6 @@
 from .base import *
-from .env import *
+
+try:
+    from .env import *
+except ImportError:
+    from .prod import *
