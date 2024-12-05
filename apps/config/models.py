@@ -33,6 +33,8 @@ class SiteConfig(SingletonModel):
     paid_up_capital = models.PositiveBigIntegerField(blank=True, null=True, verbose_name="Paid Up Capital in Nepali Rupees")
     working_countries = ArrayField(models.CharField(max_length=255), blank=True, null=True)
     logo = VersatileImageField(upload_to="images/logo/", blank=True, null=True, verbose_name="Company Logo")
+    mission = CKEditor5Field(config_name="extends", blank=True, null=True)
+    vision = CKEditor5Field(config_name="extends", blank=True, null=True)
 
     # Contact Info
     phone_numbers = ArrayField(models.CharField(max_length=255), blank=True, null=True, help_text="Enter phone numbers separatedd by comma.")
@@ -41,7 +43,7 @@ class SiteConfig(SingletonModel):
     address = models.CharField(max_length=255, blank=True, null=True)
     website = models.URLField(max_length=255, blank=True, null=True)
     social_links = models.ManyToManyField(Link, blank=True)
-    # Social Links
+    
 
     SIZES = {
         "logo": {

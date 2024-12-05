@@ -17,6 +17,8 @@ class SiteConfigAdmin(SingletonModelAdmin):
                     "pan",
                     "paid_up_capital",
                     "working_countries",
+                    "mission",
+                    "vision",
                 )
             },
         ),
