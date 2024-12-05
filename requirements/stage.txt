@@ -2,3 +2,5 @@
 gunicorn
 sentry-sdk
 whitenoise
+django-storages
+boto3
