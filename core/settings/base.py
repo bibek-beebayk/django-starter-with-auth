@@ -17,6 +17,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django.contrib.postgres",
+
     "django_extensions",
     "rest_framework",
     "rest_framework_simplejwt",
@@ -26,8 +27,10 @@ INSTALLED_APPS = [
     "django_ckeditor_5",
     "corsheaders",
     "solo",
+
     "apps.users",
     "apps.config",
+    "apps.vacancy",
 ]
 
 MIDDLEWARE = [
