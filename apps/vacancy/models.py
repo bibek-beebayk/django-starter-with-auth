@@ -15,6 +15,9 @@ class Company(TimeStampModel):
 
     def __str__(self):
         return self.name
+    
+    class Meta:
+        verbose_name_plural = "Companies"
 
 
 class Job(TimeStampModel):
@@ -22,8 +25,8 @@ class Job(TimeStampModel):
     title = models.CharField(max_length=255)
     description = CKEditor5Field(config_name="extends")
     job_location = models.CharField(max_length=255)
-    min_salary = models.DecimalField("Minimum Salary", max_digits=10, decimal_places=2)
-    max_salary = models.DecimalField("Maximum Salary", max_digits=10, decimal_places=2)
+    min_salary = models.DecimalField("Minimum Salary USD", max_digits=10, decimal_places=2)
+    max_salary = models.DecimalField("Maximum Salary USD", max_digits=10, decimal_places=2)
     job_type = models.CharField(
         max_length=255,
         choices=[
