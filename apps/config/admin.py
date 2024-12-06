@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Link, SiteConfig, Person
+from .models import Link, SiteConfig, Person, Client
 from solo.admin import SingletonModelAdmin
 
 admin.site.site_header = "Al Noor Admin"
@@ -57,3 +57,9 @@ class PersonAdmin(admin.ModelAdmin):
     list_display = ("position", "name", "email", "mobile")
     list_filter = ("position",)
     search_fields = ("position", "name", "email", "mobile")
+
+
+@admin.register(Client)
+class ClientAdmin(admin.ModelAdmin):
+    list_display = ("name",)
+    search_fields = ("name",)

@@ -75,3 +75,11 @@ class Person(models.Model):
     
     class Meta:
         verbose_name_plural = "People"
+
+
+class Client(models.Model):
+    name = models.CharField(max_length=255)
+    logo = VersatileImageField(upload_to="images/clients/", blank=True, null=True)
+
+    def __str__(self):
+        return self.name
