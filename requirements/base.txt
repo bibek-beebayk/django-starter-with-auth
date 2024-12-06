@@ -1,4 +1,4 @@
-Django
+Django==5.0.8
 psycopg2-binary
 django-extensions
 djangorestframework
