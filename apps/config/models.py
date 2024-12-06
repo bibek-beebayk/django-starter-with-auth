@@ -83,3 +83,26 @@ class Client(models.Model):
 
     def __str__(self):
         return self.name
+    
+
+class ContactUs(models.Model):
+    first_name = models.CharField(max_length=255)
+    last_name = models.CharField(max_length=255)
+    email = models.EmailField()
+    phone = models.CharField(max_length=255)
+    message = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.first_name} {self.last_name}"
+    
+    class Meta:
+        verbose_name_plural = "Contact Us"
+    
+
+class FAQ(models.Model):
+    question = models.CharField(max_length=255)
+    answer = CKEditor5Field(config_name="extends")
+
+    def __str__(self):
+        return self.question

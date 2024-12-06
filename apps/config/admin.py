@@ -1,5 +1,7 @@
 from django.contrib import admin
-from .models import Link, SiteConfig, Person, Client
+
+from core.libs.admin import ReadOnlyModelAdmin
+from .models import Link, SiteConfig, Person, Client, ContactUs, FAQ
 from solo.admin import SingletonModelAdmin
 
 admin.site.site_header = "Al Noor Admin"
@@ -63,3 +65,9 @@ class PersonAdmin(admin.ModelAdmin):
 class ClientAdmin(admin.ModelAdmin):
     list_display = ("name",)
     search_fields = ("name",)
+
+
+@admin.register(ContactUs)
+class ContactUsAdmin(ReadOnlyModelAdmin):
+    list_display = ("first_name", "last_name", "email", "phone", "created_at")
+    search_fields = ("first_name", "last_name", "email", "phone")
