@@ -93,6 +93,7 @@ class Job(TimeStampModel):
 class Application(TimeStampModel):
     job = models.ForeignKey(Job, on_delete=models.CASCADE, related_name="applications")
     cv = models.FileField(upload_to="files/applicants_cv/")
+    status = models.CharField(max_length=32, choices=[("Pending", "Pending"), ("Accepted", "Accepted"), ("Rejected", "Rejected")], default="Pending")
 
     def __str__(self):
         return f"{self.job.title}"

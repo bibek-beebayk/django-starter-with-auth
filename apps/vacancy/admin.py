@@ -33,7 +33,11 @@ class JobAdmin(admin.ModelAdmin):
 
 
 @admin.register(Application)
-class ApplicationAdmin(ReadOnlyModelAdmin):
-    list_display = ["job", "cv"]
+class ApplicationAdmin(admin.ModelAdmin):
+    list_display = ["job", "cv", "status"]
     search_fields = ["job"]
-    list_filter = ["job"]
+    list_filter = ["job", "status"]
+    readonly_fields = ["job", "cv"]
+
+    def has_add_permission(self, request):
+        return False
