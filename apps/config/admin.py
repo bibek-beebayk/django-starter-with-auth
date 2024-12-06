@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 from core.libs.admin import ReadOnlyModelAdmin
-from .models import Link, SiteConfig, Person, Client, ContactUs, FAQ
+from .models import Link, SiteConfig, Person, Client, ContactUs, FAQ, Document, Page
 from solo.admin import SingletonModelAdmin
 
 admin.site.site_header = "Al Noor Admin"
@@ -71,3 +71,20 @@ class ClientAdmin(admin.ModelAdmin):
 class ContactUsAdmin(ReadOnlyModelAdmin):
     list_display = ("first_name", "last_name", "email", "phone", "created_at")
     search_fields = ("first_name", "last_name", "email", "phone")
+
+
+@admin.register(FAQ)
+class FAQAdmin(admin.ModelAdmin):
+    list_display = ("question",)
+    search_fields = ("question",)
+
+
+@admin.register(Document)
+class DocumentAdmin(admin.ModelAdmin):
+    list_display = ("title", "file")
+    search_fields = ("title",)
+
+
+@admin.register(Page)
+class PageAdmin(admin.ModelAdmin):
+    pass

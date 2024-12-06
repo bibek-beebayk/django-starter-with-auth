@@ -4,12 +4,24 @@ from versatileimagefield.fields import VersatileImageField
 from solo.models import SingletonModel
 from django.contrib.postgres.fields import ArrayField
 from django_ckeditor_5.fields import CKEditor5Field
+from django.dispatch import receiver
+from core.libs.images import warm
+
+from core.libs.models import TimeStampModel
 
 
 class Link(models.Model):
     title = models.CharField(max_length=255)
     logo = VersatileImageField(upload_to="images/social_logo/", blank=True, null=True)
     link = models.URLField(max_length=255)
+
+    SIZES = {
+        "logo": {
+            "small": "thumbnail__320x180",
+            "medium": "thumbnail__640x360",
+        }
+    }
+
 
     def __str__(self):
         return self.title
@@ -70,6 +82,13 @@ class Person(models.Model):
     image = VersatileImageField(upload_to="images/people/", blank=True, null=True)
     message =  CKEditor5Field(config_name="extends", blank=True, null=True)
 
+    SIZES = {
+        "image": {
+            "small": "thumbnail__320x180",
+            "medium": "thumbnail__640x360",
+        }
+    }
+
     def __str__(self):
         return self.name
     
@@ -80,6 +99,14 @@ class Person(models.Model):
 class Client(models.Model):
     name = models.CharField(max_length=255)
     logo = VersatileImageField(upload_to="images/clients/", blank=True, null=True)
+
+    SIZES = {
+        "logo": {
+            "small": "thumbnail__320x180",
+            "medium": "thumbnail__640x360",
+        }
+    }
+
 
     def __str__(self):
         return self.name
@@ -106,3 +133,27 @@ class FAQ(models.Model):
 
     def __str__(self):
         return self.question
+    
+
+class Document(TimeStampModel):
+    title = models.CharField(max_length=255)
+    file = models.FileField(upload_to="files/documents/")
+
+    def __str__(self):
+        return self.title
+    
+
+class Page(TimeStampModel):
+    title = models.CharField(max_length=255)
+    content = CKEditor5Field(config_name="extends")
+
+    def __str__(self):
+        return self.title
+    
+
+@receiver(models.signals.post_save, sender=Link)
+@receiver(models.signals.post_save, sender=SiteConfig)
+@receiver(models.signals.post_save, sender=Person)
+@receiver(models.signals.post_save, sender=Client)
+def warm_images(sender, instance, **kwargs):
+    warm(instance)

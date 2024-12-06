@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     "apps.users",
     "apps.config",
     "apps.vacancy",
+    "apps.blog"
 ]
 
 MIDDLEWARE = [
