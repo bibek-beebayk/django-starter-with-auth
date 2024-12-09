@@ -1,6 +1,19 @@
 from django.db import models
 from core.libs.models import TimeStampModel
 from django_ckeditor_5.fields import CKEditor5Field
+from versatileimagefield.fields import VersatileImageField
+from django.dispatch import receiver
+from core.libs.images import warm
+
+class Industry(TimeStampModel):
+    name = models.CharField(max_length=255)
+    description = CKEditor5Field(config_name="extends")
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name_plural = "Industries"
 
 
 class Company(TimeStampModel):
@@ -20,9 +33,28 @@ class Company(TimeStampModel):
         verbose_name_plural = "Companies"
 
 
+class JobCategory(models.Model):
+    name = models.CharField(max_length=255)
+    image = VersatileImageField(upload_to="images/job_categories/", null=True, blank=True)
+
+    SIZES = {
+        "image": {
+            "small": "thumbnail__320x180",
+            "medium": "thumbnail__640x360",
+        }
+    }
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name_plural = "Job Categories"
+
+
 class Job(TimeStampModel):
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
     title = models.CharField(max_length=255)
+    category = models.ForeignKey(JobCategory, on_delete=models.CASCADE,  related_name="jobs", blank=True, null=True)
     description = CKEditor5Field(config_name="extends")
     job_location = models.CharField(max_length=255)
     min_salary = models.DecimalField(
@@ -97,3 +129,8 @@ class Application(TimeStampModel):
 
     def __str__(self):
         return f"{self.job.title}"
+
+
+@receiver(models.signals.post_save, sender=JobCategory)
+def warm_images(sender, instance, **kwargs):
+    warm(instance)
