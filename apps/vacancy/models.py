@@ -24,7 +24,18 @@ class Company(TimeStampModel):
     email = models.EmailField(blank=True, null=True)
     website = models.URLField(blank=True, null=True)
     description = models.TextField(blank=True, null=True)
-    logo = models.ImageField(upload_to="images/company_logos/", null=True, blank=True)
+    logo = VersatileImageField(upload_to="images/company_logos/", null=True, blank=True)
+
+    SIZES = {
+        "logo": {
+            "small": "thumbnail__320x180",
+            "medium": "thumbnail__640x360",
+        }
+    }
+
+    @property
+    def jobs_count(self):
+        return self.jobs.count()
 
     def __str__(self):
         return self.name
@@ -44,6 +55,10 @@ class JobCategory(models.Model):
         }
     }
 
+    @property
+    def jobs_count(self):
+        return self.jobs.count()
+
     def __str__(self):
         return self.name
 
@@ -54,6 +69,7 @@ class JobCategory(models.Model):
 class Job(TimeStampModel):
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
     title = models.CharField(max_length=255)
+    image = VersatileImageField(upload_to="images/jobs/", null=True, blank=True)
     category = models.ForeignKey(JobCategory, on_delete=models.CASCADE,  related_name="jobs", blank=True, null=True)
     description = CKEditor5Field(config_name="extends")
     job_location = models.CharField(max_length=255)
@@ -63,6 +79,7 @@ class Job(TimeStampModel):
     max_salary = models.DecimalField(
         "Maximum Annual Salary USD", max_digits=10, decimal_places=2
     )
+    currency = models.CharField(max_length=255, default="USD")
     job_type = models.CharField(
         max_length=255,
         choices=[
@@ -118,6 +135,13 @@ class Job(TimeStampModel):
             ("PhD", "PhD"),
         ],
     )
+
+    SIZES = {
+        "image": {
+            "small": "thumbnail__320x180",
+            "medium": "thumbnail__640x360",
+        }
+    }
 
     def __str__(self):
         return self.title

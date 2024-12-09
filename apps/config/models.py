@@ -151,9 +151,27 @@ class Page(TimeStampModel):
         return self.title
     
 
+class Testimonial(TimeStampModel):
+    name = models.CharField(max_length=255)
+    title = models.CharField(max_length=255)
+    description = CKEditor5Field(config_name="extends")
+    image = VersatileImageField(upload_to="images/testimonials/", blank=True, null=True)
+
+    SIZES = {
+        "image": {
+            "small": "thumbnail__320x180",
+            "medium": "thumbnail__640x360",
+        }
+    }
+
+    def __str__(self):
+        return self.name
+    
+
 @receiver(models.signals.post_save, sender=Link)
 @receiver(models.signals.post_save, sender=SiteConfig)
 @receiver(models.signals.post_save, sender=Person)
 @receiver(models.signals.post_save, sender=Client)
+@receiver(models.signals.post_save, sender=Testimonial)
 def warm_images(sender, instance, **kwargs):
     warm(instance)

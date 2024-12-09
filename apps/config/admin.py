@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 from core.libs.admin import ReadOnlyModelAdmin
-from .models import Link, SiteConfig, Person, Client, ContactUs, FAQ, Document, Page
+from .models import Link, SiteConfig, Person, Client, ContactUs, FAQ, Document, Page, Testimonial
 from solo.admin import SingletonModelAdmin
 
 admin.site.site_header = "Al Noor Admin"
@@ -88,3 +88,9 @@ class DocumentAdmin(admin.ModelAdmin):
 @admin.register(Page)
 class PageAdmin(admin.ModelAdmin):
     pass
+
+
+@admin.register(Testimonial)
+class TestimonialAdmin(admin.ModelAdmin):
+    list_display = ("name", "title")
+    search_fields = ("name", "title")
