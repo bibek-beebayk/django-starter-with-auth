@@ -7,11 +7,13 @@ from rest_framework_simplejwt.views import TokenRefreshView
 
 from apps.users import api as user_api
 from apps.config import api as config_api
+from apps.vacancy import api as job_api
 
 router = DefaultRouter() if settings.DEBUG else SimpleRouter()
 
 router.register("auth", user_api.UserCreateViewSet, basename="auth")
 router.register("user", user_api.UserViewSet, basename="user")
+router.register("job", job_api.JobViewSet, basename="job")
 
 
 urlpatterns = [

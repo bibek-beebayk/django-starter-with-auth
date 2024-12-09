@@ -44,5 +44,21 @@ class JobListSerializer(serializers.ModelSerializer):
             "job_location",
             "created_at",
             "company",
-            "category"
+            "category",
         ]
+
+
+class JobDetailSerializer(serializers.ModelSerializer):
+    company = CompanyNameSerializer(read_only=True)
+    category = JobCategorySerializer(read_only=True)
+    related_jobs = serializers.SerializerMethodField()
+
+    def get_related_jobs(self, obj):
+        related_jobs = Job.objects.filter(category=obj.category).exclude(id=obj.id)[:3]
+        return JobListSerializer(
+            related_jobs, many=True, context={"request": self.context["request"]}
+        ).data
+
+    class Meta:
+        model = Job
+        fields = "__all__"
