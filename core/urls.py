@@ -21,6 +21,7 @@ urlpatterns = [
     path("ckeditor5/", include("django_ckeditor_5.urls")),
 
     path("api/v1/home/", config_api.HomePageView.as_view(), name="home"),
+    path("api/v1/config/", config_api.ConfigView.as_view(), name="config"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 # if settings.DEBUG:
