@@ -8,11 +8,11 @@ DEBUG = False
 
 ALLOWED_HOSTS = ["alnoor-be-production.up.railway.app"]
 
-CSRF_TRUSTED_ORIGINS = ["https://alnoor-be-production.up.railway.app"]
+CSRF_TRUSTED_ORIGINS = ["https://alnoor-be-production.up.railway.app", "http://127.0.0.1:5173", "http://localhost:5173"]
 
-CORS_ALLOWED_ORIGINS = ["https://alnoor-be-production.up.railway.app"]
+CORS_ALLOWED_ORIGINS = ["https://alnoor-be-production.up.railway.app", "http://localhost:5173", "http://127.0.0.1:5173"]
 
-CORS_ORIGIN_WHITELIST = ["https://alnoor-be-production.up.railway.app"]
+CORS_ORIGIN_WHITELIST = ["https://alnoor-be-production.up.railway.app", "http://localhost:5173", "http://127.0.0.1:5173"]
 
 MIDDLEWARE += [
     "whitenoise.middleware.WhiteNoiseMiddleware",
